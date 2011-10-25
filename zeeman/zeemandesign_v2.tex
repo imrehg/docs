@@ -1,0 +1,51 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Gergely Imreh}
+\title{Zeeman slower design}
+\begin{document}
+
+\maketitle
+
+\section{Single pinhole}
+
+The fraction of flux within a maximum half-angle $\theta_{m}$:
+\begin{equation}
+q_s(\theta_{m}) = 2 \int_{0}^{\theta_{max}} \sin(\theta) \cos(\theta) d\theta = \sin^2(\theta_{m})
+\end{equation}
+
+\section{Double-pinhole}
+
+The fraction of flux within the cutoff angle $\theta_{m} = \tan^{-1}\frac{2 r}{L}$ is
+\begin{equation}
+q_d(L, r) = \frac{L^2 + 2 r^2 - L \sqrt{L^2 + 4 r^2}}{2 r^2}
+\end{equation}
+and if $L$ is expressed in units of $r$:
+\begin{equation}
+q_d(L) = \frac{1}{2}\left(2 + L^2 - L \sqrt{L^2 + 4}\right)
+\end{equation}
+and the ratio compared to the single pinhole comes out as
+\begin{equation}
+\frac{q_d}{q_s} = \frac{1}{8} L^2 \left(1 + \frac{1}{L^2}\right) \left(2 + L^2 - L\sqrt{4 + L^2}\right)
+\end{equation}
+with limits of
+\begin{eqnarray}
+\lim_{L \rightarrow 0} \frac{q_d}{q_s} &=& 1 \\
+\lim_{L \rightarrow \infty} \frac{q_d}{q_s} &=& \frac{1}{4} \\
+\end{eqnarray}
+
+\section{Simulation}
+
+\subsection{Pinholes}
+
+To generate correct distribution for $\theta$, have to use:
+\begin{eqnarray}
+x &=& r p_i \\
+\theta_i &=& \arcsin(\sqrt{p_i})
+\end{eqnarray}
+
+
+where $p_i$ is an Uniform(0,1) random variable.
+\end{document}
