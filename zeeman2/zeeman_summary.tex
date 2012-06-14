@@ -3,10 +3,13 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{hyperref}
 \author{Gergely Imreh}
 \title{Zeeman slower summary}
+\date{2012 June 14, v1}
 \begin{document}
 
+\maketitle
 
 \section{Theory}
 
@@ -16,7 +19,14 @@ The detuning at a given position is given by three contribution as
 \begin{equation}
 \delta = k v + \Delta - \frac{\mu'}{\hbar} B
 \end{equation}
-where v is the atomic velocity, 
+where v is the atomic velocity.
+
+\begin{equation}
+\frac{\partial \delta}{\partial z} = k \frac{\partial v}{\partial z} - \frac{\mu'}{\hbar}\frac{\partial B}{\partial z} = k \frac{\partial v}{\partial t} \frac{1} {\frac{\partial z}{\partial t}} - \frac{\mu'}{\hbar}\frac{\partial B}{\partial z}
+= k \frac {a}{v} - \frac{\mu'}{\hbar}\frac{\partial B}{\partial z}
+\end{equation}
+
+Ideal field, like in \cite{Bell2010}...
 
 \section{Construction}
 
@@ -28,4 +38,6 @@ Here are the simulation results, and our choice for the used design
 
 Here it comes the summary of assembly and the final design parameters
 
+\bibliographystyle{plain}
+\bibliography{zeeman}
 \end{document}
