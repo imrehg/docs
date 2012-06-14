@@ -11,7 +11,33 @@
 
 \maketitle
 
+\section{Introduction}
+
+The purpose of this document to summarize our simulation and construction results of the Zeeman slower in our lab.
+
 \section{Theory}
+
+\subsection{Field shape}
+
+\begin{equation}
+a(z) = \frac{\hbar k \Gamma}{2 m} \frac{s}{1 + s + 4 \delta(z)^2 / \Gamma^2}
+\label{eq:accel}
+\end{equation}
+where $s$ is $I/I_{\rm sat}$ saturation parameter. The assumed maximum deceleration is at $s \rightarrow \infty$, and at $\delta = 0$ we have $\eta = \frac{s}{1 + s}$.
+
+The detuning is 
+\begin{equation}
+\delta(z) = k v(z) + \Delta - \frac{\mu'}{\hbar} B(z)
+\end{equation}
+where 
+\begin{equation}
+\mu' = \mu_{B}(g_e m_e - g_g m_g)
+\end{equation}
+and in our case $\mu' = \mu_{B}$.
+
+\begin{equation}
+B_{\rm ideal}(z) = ....
+\end{equation}
 
 \subsection{Detuning}
 
@@ -28,6 +54,11 @@ where v is the atomic velocity.
 
 Ideal field, like in \cite{Bell2010}...
 
+
+Without change in the magnetic field (that is zero gradient), there's always just going to lower detuning. On the other hand, when there's $\partial B/\partial z < 0$: the can be stable and unstable points: either 1 stable and 2 unstable, or 1 unstable if $|\partial B / \partial z| >> 0$ (set a more correct level for this).
+
+
+
 \section{Construction}
 
 \subsection{Simulation}
@@ -37,6 +68,8 @@ Here are the simulation results, and our choice for the used design
 \subsection{Assembly}
 
 Here it comes the summary of assembly and the final design parameters
+
+
 
 \bibliographystyle{plain}
 \bibliography{zeeman}
