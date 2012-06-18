@@ -9,7 +9,7 @@
 \usepackage{fullpage}
 \author{Gergely Imreh}
 \title{Zeeman slower summary}
-\date{2012 June 14, v1}
+\date{\today, v1}
 \begin{document}
 
 \maketitle
@@ -67,6 +67,7 @@ where v is the atomic velocity.
 \begin{equation}
 \frac{\partial \delta}{\partial z} = k \frac{\partial v}{\partial z} - \frac{\mu'}{\hbar}\frac{\partial B}{\partial z} = k \frac{\partial v}{\partial t} \frac{1} {\frac{\partial z}{\partial t}} - \frac{\mu'}{\hbar}\frac{\partial B}{\partial z}
 = k \frac {a}{v} - \frac{\mu'}{\hbar}\frac{\partial B}{\partial z}
+\label{eq:dddz}
 \end{equation}
 
 Without change in the magnetic field (that is zero gradient), there's always just going to lower detuning. On the other hand, when there's $\partial B/\partial z < 0$: the can be stable and unstable points: either 1 stable and 2 unstable, or 1 unstable if $|\partial B / \partial z| >> 0$ (set a more correct level for this).
@@ -96,6 +97,21 @@ Figure \ref{fig:dddz2} is a similar plot using the same parameters except for th
 \caption{As Fig. \ref{fig:dddz2} but with $s = 2$, which means higher laser intensity. The line is widened and its height has increased. Now there is a true stable fixed point near $\delta = -0.5 \Gamma$ and an unstable fix point near $\delta = 0.5 \Gamma$. Further increase of laser intensity will push the fixed points away from $\delta = 0$.}
 \label{fig:dddz3}
 \end{figure}
+
+The zero crossing can be calculated analytically by reorganizing Equation \ref{eq:dddz}. We can make the following substitutions for notational convenience:
+\begin{eqnarray}
+v &=& \frac{1}{k}\left(\delta - \Delta + \frac{\mu'}{\hbar}B\right) \\
+A &=& \frac{\mu'}{\hbar}B \\
+X &=& A - \Delta \\
+Y &=& 1+s \\
+Z &=& \frac{4}{\Gamma^2} \\
+W &=& - \frac{\hbar k^3 \Gamma s}{2 m}.
+\end{eqnarray}
+The detuning $\delta$ can then be expressed as
+\begin{equation}
+\delta^3 + X \delta^2 + \frac{Y}{z} \delta + \frac{A X Y - W}{A Z}= 0
+\end{equation}
+which is just a standard cubic equation. The displayed 2 roots (out of the 3) of Figure \ref{fig:dddz3} are calculated with this method.
 
 \section{Construction}
 
