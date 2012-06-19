@@ -113,16 +113,103 @@ The detuning $\delta$ can then be expressed as
 \end{equation}
 which is just a standard cubic equation. The displayed 2 roots (out of the 3) of Figure \ref{fig:dddz3} are calculated with this method.
 
+\subsection{Controlling the final velocity}
+
+The final velocity depends on multiple parameters. We can choose a velocity that we can design for, effectively making a shorter slower on the ``slow side''. In practice the current in the negative coil can be adjusted to directly affect the final velocity. Other groups usually reduce the current in the negative coil. Some relevat simulations are shown in Figures \ref{fig:trajectory1}, \ref{fig:trajectory2} and \ref{fig:trajectory3} in Section \ref{seq:sim}  The Doppler cooling beam's saturation parameter also affects the final velocity, as higher saturation will give rise to larger red detuning $\delta \ll 0$, and thus lower final velocity.
+
+
 \section{Construction}
 
 \subsection{Simulation}
+\label{seq:sim}
 
-Here are the simulation results, and our choice for the used design
+Here are the simulation results, and our choice for the used design. 
+Finally a $0.59 m$ slower length was chosen, with AWG12 teflon coated wire, and maxium layer number of 10. The simulated layer positions are listed in Table \ref{tab:layers}, while the field is plotted in Figure \ref{fig:simcoil}.
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+\textbf{Layer\#} & \textbf{Turns} & \textbf{Start (mm)} & \textbf{End (mm)} \\ 
+\hline 
+9 & 18 & -23.9 & 13.9 \\ 
+\hline 
+7 & 31 & 13.9 & 79.0 \\ 
+\hline 
+6 & 31 & 79.0 & 144.1 \\ 
+\hline 
+5 & 30 & 144.1 & 207.1 \\ 
+\hline 
+4 & 27 & 207.1 & 263.8 \\ 
+\hline 
+3 & 26 & 263.8 & 318.4 \\ 
+\hline 
+2 & 23 & 318.4 & 366.7 \\ 
+\hline 
+1 & 21 & 366.7 & 410.8 \\ 
+\hline 
+0 & 19 & 410.8 & 450.7 \\ 
+\hline 
+1 & 17 & 450.7 & 486.4 \\ 
+\hline 
+2 & 15 & 486.4 & 517.9 \\ 
+\hline 
+3 & 12 & 517.9 & 543.1 \\ 
+\hline 
+4 & 18 & 543.1 & 580.9 \\ 
+\hline 
+8 & 2 & 580.9 & 585.1 \\ 
+\hline 
+10 & 11 & 585.1 & 608.2 \\ 
+\hline 
+\end{tabular} 
+\end{center}
+\caption{Zeeman slower winding data}
+\label{tab:layers}
+\end{table}
+
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=1.0\textwidth]{19_AWG12Coat_10}
+\caption{Results of coil somulation, layer numbers and field profile}
+\label{fig:simcoil}
+\end{figure}
+
+There's also simulation results for the the effect of reduced current in the negative coil. That seems to be the standard method for adjusting the flux, though the reduction is not as severe as we simulated. The reduction seems to be more in the 0.9-0.8 region compared to the designed current, when it is the same value on both coils: $I_{pos} = I_{neg}$. Figure \ref{fig:trajectory1} shows the simulated atom trajectories (the velocity as a function of position along the slower) for the designed current, while Figure \ref{fig:trajectory2} shows $I_{pos} = 0.5 \times I_{neg}$ and Figure \ref{fig:trajectory3} the extreme $I_{pos} = 0.25 \times I_{neg}$.
+
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{trajectory03_1}
+\caption{Trajectories with original currents for both coils}
+\label{fig:trajectory1}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{trajectory03_2}
+\caption{Trajectories with reduced current in negative coil with ratio 0.5}
+\label{fig:trajectory2}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{trajectory03_3}
+\caption{Trajectories with reduced current in negative coil with ratio 0.25}
+\label{fig:trajectory3}
+\end{figure}
 
 \subsection{Assembly}
 
-Here it comes the summary of assembly and the final design parameters
+Figure \ref{fig:slowerfield} shows the measured magnetic field as a function of position along the Zeeman slower tube. For comparison the simulated field is also shown. The absolute size of the simulated field is given by the applied current, the horizontal position is by measuring the coil position, and thus no fitting has been performed. Also plotted the expected field based on the actual measured coil positions. The end of the zeeman slower tube is indicated by vertical lines. The field outside of the tube should be suitably low not to affect the rest of the experiment, though it is probably necessary to check the requirements regarding the B-field of the radial Doppler-cooling if we decide to implement that.
 
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{slowerfield3}
+\caption{The measured and simulated magnetic fields. They are in reasonable agreement, except for some positional uncertainty on the negative coil side. The ends of the Zeeman slower tube are indicated by vertical lines.}
+\label{fig:slowerfield}
+\end{figure}
 
 
 \bibliographystyle{plain}
