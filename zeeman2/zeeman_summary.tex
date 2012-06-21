@@ -7,9 +7,10 @@
 \usepackage{graphicx}
 \usepackage[a4paper]{geometry}
 \usepackage{fullpage}
+\newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
 \author{Gergely Imreh}
 \title{Zeeman slower summary}
-\date{\today, v1}
+\date{\today, v2}
 \begin{document}
 
 \maketitle
@@ -110,12 +111,19 @@ W &=& - \frac{\hbar k^3 \Gamma s}{2 m}.
 The detuning $\delta$ can then be expressed as
 \begin{equation}
 \delta^3 + X \delta^2 + \frac{Y}{z} \delta + \frac{A X Y - W}{A Z}= 0
+\label{eq:deltacubic}
 \end{equation}
-which is just a standard cubic equation. The displayed 2 roots (out of the 3) of Figure \ref{fig:dddz3} are calculated with this method.
+which is just a standard cubic equation. The displayed 2 roots (out of the 3) of Figure \ref{fig:dddz3} were calculated with this method.
 
 \subsection{Controlling the final velocity}
 
-The final velocity depends on multiple parameters. We can choose a velocity that we can design for, effectively making a shorter slower on the ``slow side''. In practice the current in the negative coil can be adjusted to directly affect the final velocity. Other groups usually reduce the current in the negative coil. Some relevat simulations are shown in Figures \ref{fig:trajectory1}, \ref{fig:trajectory2} and \ref{fig:trajectory3} in Section \ref{seq:sim}  The Doppler cooling beam's saturation parameter also affects the final velocity, as higher saturation will give rise to larger red detuning $\delta \ll 0$, and thus lower final velocity.
+The final velocity depends on multiple parameters. We can choose a velocity that we can design for, effectively making a shorter slower on the ``slow side''. In practice the current in the negative coil can be adjusted to directly affect the final velocity. Other groups usually reduce the current in the negative coil. The Doppler cooling beam's saturation parameter also affects the final velocity, as higher saturation will give rise to larger red detuning $\delta \ll 0$, and thus lower final velocity.
+
+Some relevat simulations are shown in Figures \ref{fig:trajectory1}, \ref{fig:trajectory2} and \ref{fig:trajectory3} in Section \ref{seq:sim}. The magnetic field is the same as our slower, saturation parameter $s=2$, and the three cases have final velocities $22\unit{m/s}$, $76\unit{m/s}$ and $101\unit{m/s}$, respectively. These values should be available by solving Equation \ref{eq:deltacubic} for the minimal velocity, but that has not been tested yet.
+
+\subsection{Transverse cooling}
+
+Other groups are doing transverse cooling to reduce the transverse spread of atomic velocities, thus providing larger flux into the experimental area. For this we have avalailable windows on the double-cube sections before and after the slower. Some group is using optical molasses on the slow end of the slower  near the area with the largest negative field \cite{Joffe1993}, while others do transverse collimation and molasses on the fast end of the slower \cite{Slowe2005}.
 
 
 \section{Construction}
@@ -124,7 +132,7 @@ The final velocity depends on multiple parameters. We can choose a velocity that
 \label{seq:sim}
 
 Here are the simulation results, and our choice for the used design. 
-Finally a $0.59 m$ slower length was chosen, with AWG12 teflon coated wire, and maxium layer number of 10. The simulated layer positions are listed in Table \ref{tab:layers}, while the field is plotted in Figure \ref{fig:simcoil}.
+Finally a $0.59\unit{m}$ slower length was chosen, with AWG12 teflon coated wire, and maxium layer number of 10. The simulated layer positions are listed in Table \ref{tab:layers}, while the field is plotted in Figure \ref{fig:simcoil}.
 
 \begin{table}[htb]
 \begin{center}
@@ -172,7 +180,7 @@ Finally a $0.59 m$ slower length was chosen, with AWG12 teflon coated wire, and 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=1.0\textwidth]{19_AWG12Coat_10}
-\caption{Results of coil somulation, layer numbers and field profile}
+\caption{Results of coil somulation, layer numbers and field profile. The effective length is $0.59\unit{m}$, the winded coil length is $\approx0.63\unit{m}$ }
 \label{fig:simcoil}
 \end{figure}
 
@@ -182,27 +190,48 @@ There's also simulation results for the the effect of reduced current in the neg
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.9\textwidth]{trajectory03_1}
-\caption{Trajectories with original currents for both coils}
+\caption{Atomic trajectories of different starting velocities, with the designed currents for both coils. Simulation is done by solving the differential equations of motion for the velocity.}
 \label{fig:trajectory1}
 \end{figure}
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.9\textwidth]{trajectory03_2}
-\caption{Trajectories with reduced current in negative coil with ratio 0.5}
+\caption{As Figure \ref{fig:trajectory1}, with reduced current in negative coil by a ratio of 0.5.}
 \label{fig:trajectory2}
 \end{figure}
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.9\textwidth]{trajectory03_3}
-\caption{Trajectories with reduced current in negative coil with ratio 0.25}
+\caption{As Figure \ref{fig:trajectory1}, with reduced current in negative coil by a ratio of 0.25.}
 \label{fig:trajectory3}
 \end{figure}
 
 \subsection{Assembly}
 
-Figure \ref{fig:slowerfield} shows the measured magnetic field as a function of position along the Zeeman slower tube. For comparison the simulated field is also shown. The absolute size of the simulated field is given by the applied current, the horizontal position is by measuring the coil position, and thus no fitting has been performed. Also plotted the expected field based on the actual measured coil positions. The end of the zeeman slower tube is indicated by vertical lines. The field outside of the tube should be suitably low not to affect the rest of the experiment, though it is probably necessary to check the requirements regarding the B-field of the radial Doppler-cooling if we decide to implement that.
+The slower was assembled in the mechanical workshop, using a lathe to turn the tube while winding the coil on top of it. The winding was done horizontally, first winding the whole first layer, turning back, and winding the next layer while keeping the same handedness of the cooils. Lower layers are usually positioned quite close to the specifications, while the higher layers have more position and winding error (i.e. longer spread than designed). As long as the wires are packed as tight as practically possible, this does not affect the final field profile too much.
+
+The wires are kept in place with kapton tape, applied generously between layers and all around the wires. Later might add some high temperature epoxy to keep the whole structure even more rigid and ensure long term stability.
+
+The final assembly was tested by applying a fixed current and measuring the magnetic field inside the tube as a function of position. Measurements were done with a borrowed AlphaLab GM-2 Gaussmeter\footnote{\url{http://www.trifield.com/content/dc-gaussmeter-model-gm2/}}, and Figure \ref{fig:slowerfield} shows the results. For comparison the simulated field is also shown. The absolute size of the simulated field is given by the applied current, the horizontal position is by measuring the coil position, and thus no fitting has been performed. Also plotted the expected field based on the actual measured coil positions. The end of the zeeman slower tube is indicated by vertical lines. 
+
+
+The magnetic field values at and beyond the ends of the slower, given by simulation, are listed in the following table:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+Magnetic field (G) & Postive coil & Negative coil \\ 
+\hline 
+At end & 2.4 & -2.8 \\ 
+\hline 
+35mm away & 0.8 & -0.8 \\ 
+\hline 
+70mm away & 0.4 & -0.3 \\ 
+\hline 
+\end{tabular} 
+\end{center}
 
 \begin{figure}[htb]
 \centering
@@ -212,6 +241,6 @@ Figure \ref{fig:slowerfield} shows the measured magnetic field as a function of 
 \end{figure}
 
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{zeeman}
 \end{document}
