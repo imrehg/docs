@@ -3,14 +3,24 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage[a4paper]{geometry}
 \usepackage{fullpage}
+
+\usepackage{natbib}
+\bibpunct{[}{]}{,}{n}{}{;}
+
+\usepackage[pdftex,pagebackref]{hyperref}
+    \usepackage{natbib}
+    \hypersetup{colorlinks,linktocpage=true}
+\renewcommand{\backrefpagesname}{ \protect\\  \textit{Cited on
+page(s):}~}
+\renewcommand{\backref}{\backrefpagesname}
+
 \newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
 \author{Gergely Imreh}
 \title{Zeeman slower summary}
-\date{\today, v2}
+\date{2013-03-18, v3}
 \begin{document}
 
 \maketitle
@@ -29,17 +39,17 @@ a(z) = -\frac{\hbar k \Gamma}{2 m} \frac{s}{1 + s + 4 \delta(z)^2 / \Gamma^2}
 \end{equation}
 where $s$ is $I/I_{\rm sat}$ saturation parameter. The assumed maximum deceleration is at $s \rightarrow \infty$, and at $\delta = 0$ we have $\eta = \frac{s}{1 + s}$.
 
-The detuning is 
+The detuning is
 \begin{equation}
 \delta(z) = k v(z) + \Delta - \frac{\mu'}{\hbar} B(z)
 \end{equation}
-where 
+where
 \begin{equation}
 \mu' = \mu_{B}(g_e m_e - g_g m_g)
 \end{equation}
 and in our case $\mu' = \mu_{B}$.
 
-Most people use the ``ideal'' field profile, assuming constant deceleration (e.g adapted from \cite{Bell2010}):
+Most people use the ``ideal'' field profile, assuming constant deceleration (e.g adapted from \citet{Bell2010}):
 \begin{equation}
 B_{\rm ideal}(z) = \frac{\hbar k}{\mu'}\sqrt{v_0^2 + 2 \eta a_m z} + B_a
 \label{eq:bideal}
@@ -131,46 +141,46 @@ Other groups are doing transverse cooling to reduce the transverse spread of ato
 \subsection{Simulation}
 \label{seq:sim}
 
-Here are the simulation results, and our choice for the used design. 
-Finally a $0.59\unit{m}$ slower length was chosen, with AWG12 teflon coated wire, and maxium layer number of 10. The simulated layer positions are listed in Table \ref{tab:layers}, while the field is plotted in Figure \ref{fig:simcoil}.
+Here are the simulation results, and our choice for the used design.
+Finally a $0.59\unit{m}$ slower length was chosen, with AWG12 teflon coated wire, and maxium layer number of 10. The simulated layer positions are listed in Table \ref{tab:layers}, while the field is plotted in Figure~\ref{fig:simcoil}.
 
 \begin{table}[htb]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
-\hline 
-\textbf{Layer\#} & \textbf{Turns} & \textbf{Start (mm)} & \textbf{End (mm)} \\ 
-\hline 
-9 & 18 & -23.9 & 13.9 \\ 
-\hline 
-7 & 31 & 13.9 & 79.0 \\ 
-\hline 
-6 & 31 & 79.0 & 144.1 \\ 
-\hline 
-5 & 30 & 144.1 & 207.1 \\ 
-\hline 
-4 & 27 & 207.1 & 263.8 \\ 
-\hline 
-3 & 26 & 263.8 & 318.4 \\ 
-\hline 
-2 & 23 & 318.4 & 366.7 \\ 
-\hline 
-1 & 21 & 366.7 & 410.8 \\ 
-\hline 
-0 & 19 & 410.8 & 450.7 \\ 
-\hline 
-1 & 17 & 450.7 & 486.4 \\ 
-\hline 
-2 & 15 & 486.4 & 517.9 \\ 
-\hline 
-3 & 12 & 517.9 & 543.1 \\ 
-\hline 
-4 & 18 & 543.1 & 580.9 \\ 
-\hline 
-8 & 2 & 580.9 & 585.1 \\ 
-\hline 
-10 & 11 & 585.1 & 608.2 \\ 
-\hline 
-\end{tabular} 
+\hline
+\textbf{Layer\#} & \textbf{Turns} & \textbf{Start (mm)} & \textbf{End (mm)} \\
+\hline
+9 & 18 & -23.9 & 13.9 \\
+\hline
+7 & 31 & 13.9 & 79.0 \\
+\hline
+6 & 31 & 79.0 & 144.1 \\
+\hline
+5 & 30 & 144.1 & 207.1 \\
+\hline
+4 & 27 & 207.1 & 263.8 \\
+\hline
+3 & 26 & 263.8 & 318.4 \\
+\hline
+2 & 23 & 318.4 & 366.7 \\
+\hline
+1 & 21 & 366.7 & 410.8 \\
+\hline
+0 & 19 & 410.8 & 450.7 \\
+\hline
+1 & 17 & 450.7 & 486.4 \\
+\hline
+2 & 15 & 486.4 & 517.9 \\
+\hline
+3 & 12 & 517.9 & 543.1 \\
+\hline
+4 & 18 & 543.1 & 580.9 \\
+\hline
+8 & 2 & 580.9 & 585.1 \\
+\hline
+10 & 11 & 585.1 & 608.2 \\
+\hline
+\end{tabular}
 \end{center}
 \caption{Zeeman slower winding data}
 \label{tab:layers}
@@ -214,23 +224,23 @@ The slower was assembled in the mechanical workshop, using a lathe to turn the t
 
 The wires are kept in place with kapton tape, applied generously between layers and all around the wires. Later might add some high temperature epoxy to keep the whole structure even more rigid and ensure long term stability.
 
-The final assembly was tested by applying a fixed current and measuring the magnetic field inside the tube as a function of position. Measurements were done with a borrowed AlphaLab GM-2 Gaussmeter\footnote{\url{http://www.trifield.com/content/dc-gaussmeter-model-gm2/}}, and Figure \ref{fig:slowerfield} shows the results. For comparison the simulated field is also shown. The absolute size of the simulated field is given by the applied current, the horizontal position is by measuring the coil position, and thus no fitting has been performed. Also plotted the expected field based on the actual measured coil positions. The end of the zeeman slower tube is indicated by vertical lines. 
+The final assembly was tested by applying a fixed current and measuring the magnetic field inside the tube as a function of position. Measurements were done with a borrowed AlphaLab GM-2 Gaussmeter\footnote{\url{http://www.trifield.com/content/dc-gaussmeter-model-gm2/}}, and Figure \ref{fig:slowerfield} shows the results. For comparison the simulated field is also shown. The absolute size of the simulated field is given by the applied current, the horizontal position is by measuring the coil position, and thus no fitting has been performed. Also plotted the expected field based on the actual measured coil positions. The end of the zeeman slower tube is indicated by vertical lines.
 
 
 The magnetic field values at and beyond the ends of the slower, given by simulation, are listed in the following table:
 
 \begin{center}
 \begin{tabular}{|c|c|c|}
-\hline 
-Magnetic field (G) & Postive coil & Negative coil \\ 
-\hline 
-At end & 2.4 & -2.8 \\ 
-\hline 
-35mm away & 0.8 & -0.8 \\ 
-\hline 
-70mm away & 0.4 & -0.3 \\ 
-\hline 
-\end{tabular} 
+\hline
+Magnetic field (G) & Postive coil & Negative coil \\
+\hline
+At end & 2.4 & -2.8 \\
+\hline
+35mm away & 0.8 & -0.8 \\
+\hline
+70mm away & 0.4 & -0.3 \\
+\hline
+\end{tabular}
 \end{center}
 
 \begin{figure}[htb]
@@ -240,7 +250,30 @@ At end & 2.4 & -2.8 \\
 \label{fig:slowerfield}
 \end{figure}
 
+\section{MOT issues}
 
-\bibliographystyle{unsrt}
+A typical MOT maximum capture velocity $v_{c}$ is the velocity of an atom stopped in a distance equal to the radius of the trap, by a force that is half of the maximum scattering force \cite{Steane1992}:
+\begin{equation}
+v_c = \sqrt{2 a r}
+\end{equation}
+where $r$ is the trap radius, and $a$ is the desceleration as
+\begin{equation}
+a = \frac{\hbar k \Gamma}{4 m}
+\end{equation}
+simplified from Eq. \ref{eq:accel}.
+
+Choosing a maximum trap radius of $r=10~\mathrm{mm}$ and substituting the $^{87}$Rb D$_2$ line's values into these equations:
+\begin{align*}
+m &= 86.91~\mathrm{u} = 1.44 \times 10^{-25}~\mathrm{kg} \\
+\Gamma &= 38.11 \times 10^{6}~\mathrm{s}^{-1} \\
+k &= 8.05 \times 10^{6}~\mathrm{m}^{-1}
+\end{align*}
+we get
+\begin{align*}
+a &= 56185~\mathrm{m}/\mathrm{s}^2 \\
+v_c &= 33.52~\mathrm{m}/\mathrm{s}
+\end{align*}
+
+\bibliographystyle{unsrtnat}
 \bibliography{zeeman}
 \end{document}
