@@ -36,7 +36,7 @@ The humidity sensor used is a general CM-R resistive humidity sensor \footnote{C
 
 The current circuit is shown on Fig. \ref{fig:circuit}, part 1.
 
-To measure the resistance of the sensor, the controller is driving it at 1kHz (square waves), and at fixed intervals (every 0.5 or 1 seconds) the square wave is stopped and a quick resistance measurement is made, then the square wave is resumed. Since the sensor is working continuously for months without apparent change in behaviour, this seems to be safe enough. Also, the measured values are consisted with other independent humidity measurements (HOBO U10\footnote{HOBO U10 product page: \url{http://www.onsetcomp.com/products/data-loggers/u12-011}}).
+To measure the resistance of the sensor, the controller is driving it at 1kHz (square waves), and at fixed intervals (every 0.5 or 1 seconds) the square wave is stopped and a quick resistance measurement is made, then the square wave is resumed. Since the sensor is working continuously for months without apparent change in behaviour, this seems to be safe enough. Also, the measured values are consisted with other independent humidity measurements (HOBO U10\footnote{HOBO U10 product page: \url{http://www.onsetcomp.com/products/data-loggers/u10-003}}).
 
 The humidity vs. resistance can be derived from the spec sheet, for recording purposes the current version is assuming $25\mathrm{^\circ C}$ temperature, which is close enough, $\approx \pm 5 \% $ error for our lab temperature range. Thus here it is
 \begin{equation}
@@ -67,7 +67,7 @@ Further improvement is possibe to amplify the signal around the usual working vo
 
 The resistance and voltage measurements for the humidity and currently done with an Arduino Diecimilla\footnote{Arduino Diecimilla product page: \url{http://arduino.cc/en/Main/ArduinoBoardDiecimila}}. It is obsolete product now, but any other Arduino should do the trick, and even could build a barebones kit with the Atmel328 microcontroller chips with not too much effort.
 
-The current source code can be found on the net\footnote{Humidity sensor source code: \url{https://github.com/imrehg/weatherstation/humidity1}}. When in doubt how to load that data onto the Arduino, consult it's Getting Started Guide\footnote{Arduino Getting Started: \url{http://arduino.cc/en/Guide/HomePage}}.
+The current source code can be found on the net\footnote{Humidity sensor source code: \url{https://github.com/imrehg/weatherstation/tree/master/humidity1}}. When in doubt how to load that data onto the Arduino, consult it's Getting Started Guide\footnote{Arduino Getting Started: \url{http://arduino.cc/en/Guide/HomePage}}.
 
 The Arduino sends the measured data to the computer via the attached USB cable.
 
