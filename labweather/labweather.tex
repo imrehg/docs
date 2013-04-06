@@ -67,7 +67,7 @@ Further improvement is possibe to amplify the signal around the usual working vo
 
 The resistance and voltage measurements for the humidity and currently done with an Arduino Diecimilla\footnote{Arduino Diecimilla product page: \url{http://arduino.cc/en/Main/ArduinoBoardDiecimila}}. It is obsolete product now, but any other Arduino should do the trick, and even could build a barebones kit with the Atmel328 microcontroller chips with not too much effort.
 
-The current source code can be found on the net\footnote{Humidity sensor source code: \url{https://github.com/imrehg/weatherstation/tree/master/humidity1}}. When in doubt how to load that data onto the Arduino, consult it's Getting Started Guide\footnote{Arduino Getting Started: \url{http://arduino.cc/en/Guide/HomePage}}.
+The current source code can be found on the net\footnote{Humidity sensor source code: \url{https://github.com/UltracoldAtomsLab/weatherstation/tree/master/humidity1}}. When in doubt how to load that data onto the Arduino, consult it's Getting Started Guide\footnote{Arduino Getting Started: \url{http://arduino.cc/en/Guide/HomePage}}.
 
 The Arduino sends the measured data to the computer via the attached USB cable.
 
@@ -80,7 +80,7 @@ The Arduino sends the measured data to the computer via the attached USB cable.
 
 \section{Store and display}
 
-On a server computer a Node.js application server gathers the data, displays it on a web interface, and forwards to a database. The source code of that server is on the net\footnote{Server source code: \url{https://github.com/imrehg/weatherstation/tree/master/server}}, and can be installed as it is usual with Node.js applications: install Node.js if not already (tested v0.8.16), download the source, run `npm install` in the source code directory to install the dependencies, create a new configuration file from `config.json.default` into `config.json` (need to add the appropriate MongoDB server information).
+On a server computer a Node.js application server gathers the data, displays it on a web interface, and forwards to a database. The source code of that server is on the net\footnote{Server source code: \url{https://github.com/UltracoldAtomsLab/weatherstation/tree/master/server}}, and can be installed as it is usual with Node.js applications: install Node.js if not already (tested v0.8.16), download the source, run `npm install` in the source code directory to install the dependencies, create a new configuration file from `config.json.default` into `config.json` (need to add the appropriate MongoDB server information).
 
 The handled data is in JSON format, with 3 fields: `date`, `humidity`, `temperature`.
 
@@ -90,7 +90,7 @@ The database is running MongoDB \, like other monitoring systems for the bakeout
 
 \section{Weather report}
 
-The weather report emails are handled by a Python script, that is scheduled to run at regular intervals (once a day). The source code is on the net as well\footnote{Weather report: \url{https://github.com/imrehg/weatherreport}}. Tested with Python 2.7.3.
+The weather report emails are handled by a Python script, that is scheduled to run at regular intervals (once a day). The source code is on the net as well\footnote{Weather report: \url{https://github.com/UltracoldAtomsLab/weatherreport}}. Tested with Python 2.7.3.
 
 When installing, a `weather.conf` file has to be created based on `weather.conf.example`, to set the correct configurations for the script.
 
