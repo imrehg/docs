@@ -36,11 +36,30 @@ The humidity sensor used is a general CM-R resistive humidity sensor \footnote{C
 
 The current circuit is shown on Fig. \ref{fig:circuit}, part 1.
 
-To measure the resistance of the sensor, the controller is driving it at 1kHz (square waves), and at fixed intervals (every 0.5 or 1 seconds) the square wave is stopped and a quick resistance measurement is made, then the square wave is resumed. Since the sensor is working continuously for months without apparent change in behaviour, this seems to be safe enough. Also, the measured values are consisted with other independent humidity measurements (HOBO U10\footnote{HOBO U10 product page: \url{http://www.onsetcomp.com/products/data-loggers/u10-003}}).
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=140mm]{circuit.jpg}
+\caption{The circuits for the lab weather monitoring setup}
+\label{fig:circuit}
+\end{figure}
+
+To measure the resistance of the sensor, the controller is driving it at 1kHz with square waves, and at fixed intervals (current setting: every 1 second) the square wave is stopped and a quick resistance measurement is made, then the square wave is resumed. Since the sensor is working continuously for months without apparent change in behaviour, this seems to be safe enough.
+
+The resistance value is from an analog voltage measurement in voltage divider arrangement with the known value of $R_1$, though it is complicated by the presence of decoupling capacitors. The voltage divider equation in this case is given by
+\begin{equation}
+V_{\rm in} - V_C = \left(V_{\rm cc} - V_C \right) \frac{R_3}{R_3 + R_1}
+\end{equation}
+where $V_{\rm in}$ is the measured voltage, $V_C$ is the voltage the capacitor is charged up by the AC input signal, $V_{\rm cc}$ is the supply voltage. In the current setting, $V_{\rm cc} = 5V$, $V_C = V_{\rm cc} / 2 = 2.5V$. Rearranging this equation for $R_3$:
+\begin{equation}
+R_3 = \frac{R_1}{\frac{V_{\rm cc} - V_C}{V_{\rm in} - V_C} - 1}
+\end{equation}
+From experience, $V_C$ is actually quite dependent on the measurement frequency, probably during the measurement the capacitors are discharging somewhat, which will lead to erroreous resistance value. With 2Hz measurement rate the measured resistance is $\approx 80\%$ of the true value, with 1Hz it is $\approx 90\%$, with 0.25Hz $\approx 97\%$. Since the humidity-vs-resistance curve is very steep, these differences have very small effect on the final outcome (likely below the accuracy of the sensor itself), to be more consistent, though, currently a correction factor of $1/0.9$ is applied (for the 1Hz measurement).
+
+The recorded humidity values are consisted with other independent humidity measurements (HOBO U10\footnote{HOBO U10 product page: \url{http://www.onsetcomp.com/products/data-loggers/u10-003}}).
 
 The humidity vs. resistance can be derived from the spec sheet, for recording purposes the current version is assuming $25\mathrm{^\circ C}$ temperature, which is close enough, $\approx \pm 5 \% $ error for our lab temperature range. Thus here it is
 \begin{equation}
-\mathrm{RH\%} =  2.76366367 \times (\log_{10} R) ^ 2 - 32.40924966 \times \log_{10}R + 102.93566686
+\mathrm{RH\%} =  2.76366367 \times (\log_{10} R) ^ 2 - 32.40924966 \times (\log_{10}R) + 102.93566686
 \end{equation}
 where the coefficients I got from fitting the spec sheet data.
 
@@ -48,20 +67,13 @@ Further improvement would be to rewire the sensor in an AC balanced bridge arran
 
 \subsection{Temperature sensor}
 
-Texas Instruments LM335 \footnote{LM335 product page: \url{http://www.ti.com/product/lm335}} in the simplest possible arrangement. It can be considered as a regular Zener-diode, with temperature dependent breakdown voltage, in this case $10\mathrm{mV}/\mathrm{K}$. Thus room temperature gives about $2.93\mathrm{V}$ across it.
+Texas Instruments LM335\footnote{LM335 product page: \url{http://www.ti.com/product/lm335}} in the simplest possible arrangement. It can be considered as a regular Zener-diode, with temperature dependent breakdown voltage, in this case $10\mathrm{mV}/\mathrm{K}$. Thus room temperature gives about $2.93\mathrm{V}$ across it.
 
 The circuit is shown on Fig. \ref{fig:circuit}, part 2.
 
 One problem is that the currently used Arduino's ADC has only 10bits over 0-5V, only being able to resolve about $0.5\mathrm{^\circ C}$, with quite a bit of noise. Thus the measured value needs to be averaged and filtered for practical use.
 
 Further improvement is possibe to amplify the signal around the usual working voltage. Most likely it would be an op-amp in single-supply mode. Tried one such circuit with 10x amplification, the temperature resolution is better, but the measurement noise (measured by calculating the standard deviation) is only reduced by half. Thus this might not worth the extra effort.
-
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=140mm]{circuit.jpg}
-\caption{The circuits for the lab weather monitoring setup}
-\label{fig:circuit}
-\end{figure}
 
 \section{Data relay}
 
@@ -92,15 +104,7 @@ The database is running MongoDB \, like other monitoring systems for the bakeout
 
 The weather report emails are handled by a Python script, that is scheduled to run at regular intervals (once a day). The source code is on the net as well\footnote{Weather report: \url{https://github.com/UltracoldAtomsLab/weatherreport}}. Tested with Python 2.7.3.
 
-When installing, a `weather.conf` file has to be created based on `weather.conf.example`, to set the correct configurations for the script.
-
-The running of the script at regular intervals is done by cron (one common scheduler on Linux), have to set the following values in the cron config (with `crontab -e`):
-\begin{lstlisting}[language=Bash,frame=single]
-0 7 * * * /home/lab/prog/weatherreport/report.sh
-\end{lstlisting}
-which means that every day, at 7:00am run the following script.
-
-The computer has to be able to send emails with sendmail, another common Linux tool for this to work, and if the dataset has some problems, then might not send email at all (not all error scenarios are foreseen).
+The resulting report graphics looks like Figure \ref{fig:weatherreport}, which includes humidity and temperature time series for the last 24h by default. The temperature measurement is smoothed by a Kalman-filter\footnote{Current implementation based on \url{http://www.scipy.org/Cookbook/KalmanFiltering}.} (in the `smooth.py` library also included), to reduce the measurement noise and find a more accurate running average. The Kalman filter has only one parameter, the process variance, that is just choosen empirically to give relatively smooth output for the given data, and its value is not critical.
 
 \begin{figure}[ht!]
 \centering
@@ -109,137 +113,30 @@ The computer has to be able to send emails with sendmail, another common Linux t
 \label{fig:weatherreport}
 \end{figure}
 
-%\section{Appendix}
-%
-%\subsection{Arduino source code}
-%\label{ssec:arduino}
-%
-%\begin{lstlisting}[language=C,frame=single]
-%#include <limits.h>  // For ULONG_MAX
-%
-%static const int VCCPin = 9;
-%static const int analogPin = 0;
-%static const int tempPin = 4;
-%static const float Re = 50.3; // kOhm
-%//static const float Vref = 5.0 * 15 / (15 + 51);
-%static const float Vref = 5.0;
-%static const float Vm = 2.5;
-%
-%
-%static float a = 2.76366367;
-%static float b = -32.40924966;
-%static float c = 102.93566686;
-%
-%int val = 0;
-%int count = 0;
-%unsigned long t;
-%boolean level = LOW;
-%unsigned long nowt;
-%static unsigned long microwait = 500;
-%unsigned long deltat;
-%
-%void setup() {
-%  Serial.begin(115200);
-%  Serial.println(F("Humidity sensor"));
-%  pinMode(VCCPin, OUTPUT);
-%  t = micros();
-%}
-%
-%void loop() {
-%  float temp, hum, res;
-%  
-%  nowt = micros();
-%  if (nowt >= t) {
-%    deltat = nowt - t;
-%  } 
-%  else {
-%    // Taking care of micros overflow
-%    // that should happen every 70 minutes or so
-%    deltat = ULONG_MAX - t + nowt;
-%  }
-%  if (deltat > microwait) {
-%    digitalWrite(VCCPin, level);
-%    if (level == HIGH) {
-%      if (count == 400) {
-%        res = GetResistance();
-%
-%        digitalWrite(VCCPin, LOW);
-%        delay(50);
-%        temp = GetTemperature();
-%        digitalWrite(VCCPin, HIGH);
-%        
-%        hum = GetHumidity(res, temp);
-%        Serial.print(hum);
-%        Serial.print(",");
-%        Serial.print(res);
-%        Serial.print(",");
-%        Serial.print(temp);
-%        Serial.println();
-%        count = 0;
-%      } else {
-%        count++; 
-%      }
-%    }
-%    level = !level;
-%    t = nowt;
-%  }  
-%}
-%
-%// Output resistance in kOhm
-%float GetResistance(void) {
-%  float resistance, volt;
-%  int val;
-%  
-%  val = analogRead(analogPin);
-%  volt = val * 5.0 / 1024;
-%
-%  if (volt < Vm) {
-%    resistance = -1;
-%  } 
-%  else if (volt > Vref) {
-%    resistance = -2;
-%  } 
-%  else {
-%    // if in range, calculate resistance value
-%    resistance = Re / ((Vref-Vm)/(volt-Vm) - 1);
-%  }
-%  return (resistance); 
-%}
-%
-%// Rewrite these into two functions so can retrive the resistance
-%// separately and use temperature to get correct value;
-%float GetHumidity(float resistance, float temperature) {
-%  float humidity;
-%  
-%  if (resistance < 0) {
-%     // this means there was some error
-%     // in the resistance measurement
-%     if (resistance == -1) {
-%       humidity = 0.0;
-%     } else if (resistance == -2) {
-%       humidity = 100.0; 
-%     } else {
-%        humidity = 0.0; 
-%     }
-%  }
-%  else {
-%    float reslog = log10(resistance);
-%    humidity = a * reslog*reslog + b * reslog + c;
-%    if (humidity > 100.0) {
-%      humidity = 100.0;
-%    } 
-%    else if (humidity < 0.0) {
-%      humidity = 0.0;
-%    }
-%  }
-%  return (humidity);
-%}
-%
-%float GetTemperature(void) {
-%  float temperature;
-%  temperature = analogRead(tempPin) * 5.0 / 1024.0 / 0.01;
-%  return (temperature);
-%}
-%\end{lstlisting}
+When installing, a `weather.conf` file has to be created based on `weather.conf.example`, to set the correct configurations for the script. The configuration options (the database server, time zone, email settings) are named appropriately, and also commented.
+
+The running of the script at regular intervals is done by cron (one common scheduler on Linux), have to set the following values in the cron config (with `crontab -e`):
+\begin{lstlisting}[language=Bash,frame=single]
+0 7 * * * /home/lab/prog/weatherreport/report.sh
+\end{lstlisting}
+which means that every day, at 7:00am run the following script. A quick analysis and report can be set by just running the script at any time, it will take the last 24h data. In such use case, might want to change the `weather.conf` temporarily to limit the email recepients (can comment out any line with placing `\#` as the first character, but make sure that when done, the original settings are restored).
+
+The sending server's details are also set in `weather.conf`, see comments, right now it is set up to work with GMail + SMTP, using the lab account `yjlinlab@gmail.com`. Make sure that the password is never checked into the source control system.
+
+\section{Troubleshooting}
+
+If not sure whether the weatherstation is collecting data, could connect to the MongoDB Primary server (with the command `mongo hostname:port` with the appropriate hostname and port number) issue two simple commands: `use datasetname` where datasetname is the name of the dataset used in the settings (at the moment it is `weather`, thus the command is `use weather`. The next step is querying the latest reading in the database: \\`db.readings.find().sort({date: -1}).limit(1)`\\
+This should return a result, and the date of that result should be recent (less than 5 seconds old). Take into account that the date is stored in UTC format (signified by the Z at the end the ISO 8601\footnote{ISO 8601: \url{http://en.wikipedia.org/wiki/ISO_8601}} formatted date), thus being 8 hours behind Taiwan!
+
+For example the result in the Mongo shell, where rs0:PRIMARY$>$ is the MongoShell command prompt, signifying that one is connected to the Primary server of the replica set called `rs0`, and things after the $>$ sign are the ones that are typed, new lines are the results:
+\begin{lstlisting}[language=sh,frame=single]
+rs0:PRIMARY> use weather
+switched to db weather
+rs0:PRIMARY> db.readings.find().sort({date: -1}).limit(1)
+{ "_id" : ObjectId("51626b1f6124d94bdcd5247d"),
+"date" : ISODate("2013-04-08T07:00:47.936Z"),
+"temperature" : 26.37, "humidity" : 48.41 }
+\end{lstlisting}
+
 
 \end{document}
